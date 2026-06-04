@@ -3,7 +3,6 @@ import requests
 from dotenv import load_dotenv
 from google import genai
 
-# Load secrets
 load_dotenv()
 PAGERDUTY_API_KEY = os.getenv("PAGERDUTY_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -23,13 +22,13 @@ incidents = resp.json().get("incidents", [])
 
 print("Incidents (first 2):", incidents)
 
-# Configure Gemini (new client format)
+# Configure Gemini
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # Summarize incidents
 prompt = f"Summarize these PagerDuty incidents in a clear incident report:\n{incidents}"
 
-# FIX 2: Switched to the modern workhorse model "gemini-2.5-flash"
+# "gemini-2.5-flash"
 response = client.models.generate_content(
     model="gemini-2.5-flash",   
     contents=prompt
